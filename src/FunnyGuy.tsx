@@ -128,9 +128,11 @@ export function FunnyGuy({
       <style>{STYLES}</style>
       <title>{label}</title>
       <g className="fg-guy">
-        {/* legs (lower body) stay planted; drawn behind the body */}
+        {/* legs (lower body) stay planted; drawn behind the body, shadows included */}
         <rect className="fg-leg" width="44.925697" height="303.63574" x="343.91394" y="817.95752" />
         <rect className="fg-leg" width="44.925697" height="303.63574" x="488.56369" y="819.51562" />
+        <path className="fg-shadow" d="m 343.91394,850.80017 44.9257,50.14378 V 854.4993 Z" />
+        <path className="fg-shadow" d="m 489.36696,858.68398 44.12243,49.36647 V 861.6058 Z" />
         {/* upper body — the only part that leans/shakes (e.g. the angry pose) */}
         <g className="fg-upper">
           <path
@@ -173,9 +175,6 @@ export function FunnyGuy({
           {/* cheer: open, black, laughing mouth */}
           <path className="fg-mouth-cheer" d="M 356,415 Q 397,408 438,415 C 432,458 362,458 356,415 Z" />
         </g>
-        {/* leg shadows drawn on top of the body/leg junction */}
-        <path className="fg-shadow" d="m 343.91394,850.80017 44.9257,50.14378 V 854.4993 Z" />
-        <path className="fg-shadow" d="m 489.36696,858.68398 44.12243,49.36647 V 861.6058 Z" />
       </g>
     </svg>
   );
