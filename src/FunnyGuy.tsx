@@ -55,8 +55,8 @@ const STYLES = `
 @keyframes fg-lookup{0%,100%{transform:translateY(-4px)}50%{transform:translateY(-6px)}}
 /* leans forward (translateY + slight squash) and trembles side to side */
 @keyframes fg-angry{0%{transform:translateY(6px) scaleY(.97) rotate(-2deg)}25%{transform:translateY(7px) scaleY(.97) rotate(2deg)}50%{transform:translateY(6px) scaleY(.97) rotate(-1.6deg)}75%{transform:translateY(7px) scaleY(.97) rotate(2deg)}100%{transform:translateY(6px) scaleY(.97) rotate(-2deg)}}
-/* leans forward (tilt + head-drop) and sways slowly, wearily */
-@keyframes fg-tired{0%,100%{transform:translateY(13px) scaleY(.94) rotate(-6deg)}50%{transform:translateY(17px) scaleY(.93) rotate(-3deg)}}
+/* leans forward (left) — a strong weary tilt + head-drop, swaying slowly */
+@keyframes fg-tired{0%,100%{transform:translateY(16px) scaleY(.93) rotate(-13deg)}50%{transform:translateY(20px) scaleY(.92) rotate(-9deg)}}
 
 .fg-root[data-pose="idle"] .fg-guy{animation:fg-breathe 3.6s ease-in-out infinite}
 
