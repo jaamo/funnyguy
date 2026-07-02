@@ -1,6 +1,6 @@
 import React from "react";
 
-export type FunnyGuyPose = "idle" | "wave" | "cheer" | "think";
+export type FunnyGuyPose = "idle" | "wave" | "cheer" | "think" | "angry";
 
 export interface FunnyGuyProps
   extends Omit<React.SVGProps<SVGSVGElement>, "color"> {
@@ -35,6 +35,10 @@ const STYLES = `
 .fg-eye-r{transform-box:view-box;transform-origin:338px 325px}
 .fg-eye-l{transform-box:view-box;transform-origin:442px 329px}
 .fg-dot{opacity:0;fill:#1a1a1a}
+.fg-upper{transform-box:view-box;transform-origin:430px 855px}
+.fg-lid{fill:var(--fg-body,#35b5f8);opacity:0}
+.fg-brow-angry{opacity:0}
+.fg-mouth-angry{fill:none;stroke:#1a1a1a;stroke-width:12;stroke-linecap:round;opacity:0}
 
 @keyframes fg-bob{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-10px) rotate(-1.2deg)}50%{transform:translateY(-4px)}75%{transform:translateY(-12px) rotate(1.2deg)}}
 @keyframes fg-breathe{0%,100%{transform:translateY(0) scaleY(1)}50%{transform:translateY(-5px) scaleY(1.015)}}
@@ -46,6 +50,8 @@ const STYLES = `
 @keyframes fg-thinktilt{0%,100%{transform:rotate(-3.5deg)}50%{transform:rotate(-1.5deg)}}
 @keyframes fg-lookup{0%,100%{transform:translateY(-4px)}50%{transform:translateY(-6px)}}
 @keyframes fg-dot{0%,100%{opacity:0}35%,75%{opacity:1}}
+/* leans forward (translateY + slight squash) and trembles side to side */
+@keyframes fg-angry{0%{transform:translateY(6px) scaleY(.97) rotate(-2deg)}25%{transform:translateY(7px) scaleY(.97) rotate(2deg)}50%{transform:translateY(6px) scaleY(.97) rotate(-1.6deg)}75%{transform:translateY(7px) scaleY(.97) rotate(2deg)}100%{transform:translateY(6px) scaleY(.97) rotate(-2deg)}}
 
 .fg-root[data-pose="idle"] .fg-guy{animation:fg-breathe 3.6s ease-in-out infinite}
 
@@ -64,6 +70,13 @@ const STYLES = `
 .fg-root[data-pose="think"] .fg-dot1{animation:fg-dot 1.8s ease-in-out infinite}
 .fg-root[data-pose="think"] .fg-dot2{animation:fg-dot 1.8s ease-in-out .3s infinite}
 .fg-root[data-pose="think"] .fg-dot3{animation:fg-dot 1.8s ease-in-out .6s infinite}
+
+.fg-root[data-pose="angry"] .fg-upper{animation:fg-angry .22s ease-in-out infinite}
+.fg-root[data-pose="angry"] .fg-brow-normal{opacity:0}
+.fg-root[data-pose="angry"] .fg-brow-angry{opacity:1}
+.fg-root[data-pose="angry"] .fg-mouth{opacity:0}
+.fg-root[data-pose="angry"] .fg-mouth-angry{opacity:1}
+.fg-root[data-pose="angry"] .fg-lid{opacity:1}
 
 @media (prefers-reduced-motion: reduce){.fg-root *{animation:none!important}}
 /* Frozen pose: pause mid-cycle so the shape reads as the pose, not the start frame. */
@@ -102,32 +115,46 @@ export function FunnyGuy({
       <style>{STYLES}</style>
       <title>{label}</title>
       <g className="fg-guy">
-        <path
-          className="fg-body"
-          d="m 285.66439,848.3888 c 0,0 -65.39305,-378.59135 -41.30088,-487.00614 24.09218,-108.4148 89.48523,-168.64524 187.57481,-166.92437 98.08958,1.72087 184.13307,89.48523 182.4122,173.80784 -1.72087,84.32262 -8.60435,457.75137 -25.81305,495.6105 C 526.58616,860.4349 285.66439,848.3888 285.66439,848.3888 Z"
-        />
+        {/* legs (lower body) stay planted; drawn behind the body */}
         <rect className="fg-leg" width="44.925697" height="303.63574" x="343.91394" y="817.95752" />
         <rect className="fg-leg" width="44.925697" height="303.63574" x="488.56369" y="819.51562" />
-        <g className="fg-arm-right">
-          <rect className="fg-arm-rect" width="44.925697" height="494.18268" x="274.10638" y="446.77661" transform="rotate(4.2996009)" />
+        {/* upper body — the only part that leans/shakes (e.g. the angry pose) */}
+        <g className="fg-upper">
+          <path
+            className="fg-body"
+            d="m 285.66439,848.3888 c 0,0 -65.39305,-378.59135 -41.30088,-487.00614 24.09218,-108.4148 89.48523,-168.64524 187.57481,-166.92437 98.08958,1.72087 184.13307,89.48523 182.4122,173.80784 -1.72087,84.32262 -8.60435,457.75137 -25.81305,495.6105 C 526.58616,860.4349 285.66439,848.3888 285.66439,848.3888 Z"
+          />
+          <g className="fg-arm-right">
+            <rect className="fg-arm-rect" width="44.925697" height="494.18268" x="274.10638" y="446.77661" transform="rotate(4.2996009)" />
+          </g>
+          <g className="fg-arm-left">
+            <rect className="fg-arm-rect" width="44.925697" height="494.18268" x="451.63632" y="538.35541" transform="rotate(-12.047026)" />
+          </g>
+          <g className="fg-eye-r">
+            <ellipse className="fg-white" cx="338.15091" cy="324.38394" rx="43.882179" ry="45.603046" />
+            <ellipse className="fg-ink" cx="337.32816" cy="326.21268" rx="32.423744" ry="33.695263" />
+            {/* angry upper eyelid: skin-colored, drops over the inner-top of the eye */}
+            <polygon className="fg-lid" points="288,272 390,272 390,342 288,300" />
+          </g>
+          <g className="fg-eye-l">
+            <ellipse className="fg-white" cx="442.25381" cy="328.11157" rx="43.882179" ry="45.603046" />
+            <ellipse className="fg-ink" cx="441.62891" cy="329.78705" rx="32.423744" ry="33.695263" />
+            <polygon className="fg-lid" points="396,272 496,272 496,300 396,342" />
+          </g>
+          {/* friendly brows (default) */}
+          <path className="fg-brow fg-brow-normal" d="m 414.79958,265.44341 c 43.17879,-27.60611 69.3692,5.6628 69.3692,5.6628" />
+          <path className="fg-brow fg-brow-normal" d="m 305.18257,264.63756 c 43.17879,-27.60611 69.3692,5.6628 69.3692,5.6628" />
+          {/* angry brows: straight, slanting down toward the nose */}
+          <path className="fg-brow fg-brow-angry" d="M 300,296 L 374,322" />
+          <path className="fg-brow fg-brow-angry" d="M 410,322 L 484,296" />
+          {/* default light smile + angry frown */}
+          <path className="fg-mouth" d="M 362,413 Q 397,431 432,413" />
+          <path className="fg-mouth-angry" d="M 362,421 Q 397,401 432,421" />
+          <path className="fg-grin" d="m 350,405 c 18,42 76,42 94,0" />
         </g>
-        <g className="fg-arm-left">
-          <rect className="fg-arm-rect" width="44.925697" height="494.18268" x="451.63632" y="538.35541" transform="rotate(-12.047026)" />
-        </g>
+        {/* leg shadows drawn on top of the body/leg junction */}
         <path className="fg-shadow" d="m 343.91394,850.80017 44.9257,50.14378 V 854.4993 Z" />
         <path className="fg-shadow" d="m 489.36696,858.68398 44.12243,49.36647 V 861.6058 Z" />
-        <g className="fg-eye-r">
-          <ellipse className="fg-white" cx="338.15091" cy="324.38394" rx="43.882179" ry="45.603046" />
-          <ellipse className="fg-ink" cx="337.32816" cy="326.21268" rx="32.423744" ry="33.695263" />
-        </g>
-        <g className="fg-eye-l">
-          <ellipse className="fg-white" cx="442.25381" cy="328.11157" rx="43.882179" ry="45.603046" />
-          <ellipse className="fg-ink" cx="441.62891" cy="329.78705" rx="32.423744" ry="33.695263" />
-        </g>
-        <path className="fg-brow" d="m 414.79958,265.44341 c 43.17879,-27.60611 69.3692,5.6628 69.3692,5.6628" />
-        <path className="fg-brow" d="m 305.18257,264.63756 c 43.17879,-27.60611 69.3692,5.6628 69.3692,5.6628" />
-        <path className="fg-mouth" d="M 362,413 Q 397,431 432,413" />
-        <path className="fg-grin" d="m 350,405 c 18,42 76,42 94,0" />
       </g>
       <circle className="fg-dot fg-dot1" cx="600" cy="215" r="9" />
       <circle className="fg-dot fg-dot2" cx="652" cy="180" r="12" />

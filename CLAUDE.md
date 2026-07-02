@@ -24,6 +24,13 @@ that the component was distilled from.
   which pauses every animation at a representative mid-cycle frame.
 - `color` sets the `--fg-body` CSS var; the leg shadow is derived with `color-mix`,
   so recoloring stays coherent.
+- Structure: `.fg-guy` (bobs/hops, pivots at the feet) contains the legs, then
+  `.fg-upper` (a group wrapping body + arms + face), then the leg shadows. `.fg-upper`
+  is what leans/shakes independently of the planted legs — the **angry** pose animates
+  it (lean-forward + tremble, pivot at the waist `430,855`). Alternate faces (angry
+  brows/mouth and the eyelids `.fg-lid`) are always in the DOM but `opacity:0`, toggled
+  on by `[data-pose="angry"]`; the eyelids are `--fg-body`-colored so they read as skin
+  dropping over the eyeball.
 - **think** uses a "…" thought bubble (not a hand-to-chin) on purpose: the arms are
   the same fill as the body, so any arm posed *over* the body silhouette (like reaching
   the face) is invisible. Poses only read when the limb sits *outside* the silhouette

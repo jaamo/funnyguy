@@ -29,7 +29,7 @@ so there is **no stylesheet to import** and no runtime dependencies.
 
 | Prop       | Type                                      | Default     | Description                                             |
 | ---------- | ----------------------------------------- | ----------- | ------------------------------------------------------ |
-| `pose`     | `"idle" \| "wave" \| "cheer" \| "think"` | `"wave"`    | Which animation to play.                               |
+| `pose`     | `"idle" \| "wave" \| "cheer" \| "think" \| "angry"` | `"wave"` | Which animation to play.                       |
 | `color`    | `string`                                  | `"#35b5f8"` | Body color (any CSS color); the shadow is derived.     |
 | `size`     | `number \| string`                        | `240`       | Rendered width; height scales to keep aspect ratio.    |
 | `animated` | `boolean`                                 | `true`      | When `false`, the pose is frozen (no motion).          |
@@ -44,6 +44,7 @@ Any other `svg` props (`className`, `style`, `onClick`, …) are forwarded to th
 - **wave** — one hand raised beside the head, waving; smiles and bobs.
 - **cheer** — both arms up, big grin, a little hop.
 - **think** — head tilt, upward glance, rising "…" thought bubble.
+- **angry** — down-slanted brows, frown, hooded eyes; upper body leans forward and trembles.
 
 ### Examples
 
