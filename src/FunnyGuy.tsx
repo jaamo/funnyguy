@@ -28,7 +28,7 @@ const STYLES = `
 .fg-shadow{fill:var(--fg-shadow)}
 .fg-white{fill:#fff}.fg-ink{fill:#1a1a1a}
 .fg-brow{fill:none;stroke:#1a1a1a;stroke-width:8}
-.fg-mouth{fill:#1a1a1a;stroke:#1a1a1a;stroke-width:8;transform-box:view-box;transform-origin:392px 415px}
+.fg-mouth{fill:none;stroke:#1a1a1a;stroke-width:12;stroke-linecap:round;transform-box:view-box;transform-origin:397px 415px}
 .fg-grin{fill:none;stroke:#1a1a1a;stroke-width:12;stroke-linecap:round;opacity:0}
 .fg-arm-left{transform-box:view-box;transform-origin:553px 435px}
 .fg-arm-right{transform-box:view-box;transform-origin:300px 470px}
@@ -130,10 +130,7 @@ export function FunnyGuy({
         </g>
         <path className="fg-brow" d="m 414.79958,265.44341 c 43.17879,-27.60611 69.3692,5.6628 69.3692,5.6628" />
         <path className="fg-brow" d="m 305.18257,264.63756 c 43.17879,-27.60611 69.3692,5.6628 69.3692,5.6628" />
-        <path
-          className="fg-mouth"
-          d="m 374.43076,385.89159 c 0,0 -6.59882,38.99302 -1.19978,58.18959 5.39903,19.19656 35.39366,35.39367 38.39313,4.19925 2.99946,-31.19442 0,-64.18852 0,-64.18852 z"
-        />
+        <path className="fg-mouth" d="M 360,415 L 434,415" />
         <path className="fg-grin" d="m 350,405 c 18,42 76,42 94,0" />
       </g>
       <circle className="fg-dot fg-dot1" cx="600" cy="215" r="9" />
