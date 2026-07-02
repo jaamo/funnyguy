@@ -31,10 +31,15 @@ that the component was distilled from.
   brows/mouth and the eyelids `.fg-lid`) are always in the DOM but `opacity:0`, toggled
   on by `[data-pose="angry"]`; the eyelids are `--fg-body`-colored so they read as skin
   dropping over the eyeball.
-- **think** uses a "…" thought bubble (not a hand-to-chin) on purpose: the arms are
-  the same fill as the body, so any arm posed *over* the body silhouette (like reaching
-  the face) is invisible. Poses only read when the limb sits *outside* the silhouette
-  (wave/cheer go up and away). Keep that constraint in mind when adding poses.
+- **think** conveys its mood through the face (straight low brows, half-closed eyelids,
+  flat mouth) rather than a hand-to-chin. That is deliberate: the arms are the same fill
+  as the body, so any arm posed *over* the body silhouette (like reaching the face) is
+  invisible. Poses only read when a limb sits *outside* the silhouette (wave/cheer go up
+  and away). Keep that constraint in mind when adding poses.
+- Per-pose faces are layered as opacity-toggled alternates (`fg-mouth`/`fg-mouth-angry`/
+  `fg-mouth-think`/`fg-mouth-cheer`, `fg-brow-normal`/`-angry`/`-think`, `fg-lid`/
+  `fg-lid-think`). Default parts show; `[data-pose="…"]` hides the default and reveals
+  the matching alternate.
 
 ### Key animation details
 - Whole character (`.fg-guy` / `#guy`) — bob/sway/hop, pivots at the feet

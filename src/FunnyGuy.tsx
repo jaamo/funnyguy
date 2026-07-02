@@ -29,16 +29,15 @@ const STYLES = `
 .fg-white{fill:#fff}.fg-ink{fill:#1a1a1a}
 .fg-brow{fill:none;stroke:#1a1a1a;stroke-width:8}
 .fg-mouth{fill:none;stroke:#1a1a1a;stroke-width:12;stroke-linecap:round;transform-box:view-box;transform-origin:397px 415px}
-.fg-grin{fill:none;stroke:#1a1a1a;stroke-width:12;stroke-linecap:round;opacity:0}
+.fg-mouth-cheer{fill:#1a1a1a;opacity:0}
 .fg-arm-left{transform-box:view-box;transform-origin:553px 435px}
 .fg-arm-right{transform-box:view-box;transform-origin:300px 470px}
 .fg-eye-r{transform-box:view-box;transform-origin:338px 325px}
 .fg-eye-l{transform-box:view-box;transform-origin:442px 329px}
-.fg-dot{opacity:0;fill:#1a1a1a}
 .fg-upper{transform-box:view-box;transform-origin:430px 855px}
-.fg-lid{fill:var(--fg-body,#35b5f8);opacity:0}
-.fg-brow-angry{opacity:0}
-.fg-mouth-angry{fill:none;stroke:#1a1a1a;stroke-width:12;stroke-linecap:round;opacity:0}
+.fg-lid,.fg-lid-think{fill:var(--fg-body,#35b5f8);opacity:0}
+.fg-brow-angry,.fg-brow-think{opacity:0}
+.fg-mouth-angry,.fg-mouth-think{fill:none;stroke:#1a1a1a;stroke-width:12;stroke-linecap:round;opacity:0}
 
 @keyframes fg-bob{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-10px) rotate(-1.2deg)}50%{transform:translateY(-4px)}75%{transform:translateY(-12px) rotate(1.2deg)}}
 @keyframes fg-breathe{0%,100%{transform:translateY(0) scaleY(1)}50%{transform:translateY(-5px) scaleY(1.015)}}
@@ -48,7 +47,6 @@ const STYLES = `
 @keyframes fg-cheerR{0%,100%{transform:rotate(150deg)}50%{transform:rotate(158deg)}}
 @keyframes fg-thinktilt{0%,100%{transform:rotate(-3.5deg)}50%{transform:rotate(-1.5deg)}}
 @keyframes fg-lookup{0%,100%{transform:translateY(-4px)}50%{transform:translateY(-6px)}}
-@keyframes fg-dot{0%,100%{opacity:0}35%,75%{opacity:1}}
 /* leans forward (translateY + slight squash) and trembles side to side */
 @keyframes fg-angry{0%{transform:translateY(6px) scaleY(.97) rotate(-2deg)}25%{transform:translateY(7px) scaleY(.97) rotate(2deg)}50%{transform:translateY(6px) scaleY(.97) rotate(-1.6deg)}75%{transform:translateY(7px) scaleY(.97) rotate(2deg)}100%{transform:translateY(6px) scaleY(.97) rotate(-2deg)}}
 
@@ -61,13 +59,15 @@ const STYLES = `
 .fg-root[data-pose="cheer"] .fg-arm-left{animation:fg-cheerL .9s ease-in-out infinite}
 .fg-root[data-pose="cheer"] .fg-arm-right{animation:fg-cheerR .9s ease-in-out infinite}
 .fg-root[data-pose="cheer"] .fg-mouth{opacity:0}
-.fg-root[data-pose="cheer"] .fg-grin{opacity:1}
+.fg-root[data-pose="cheer"] .fg-mouth-cheer{opacity:1}
 
 .fg-root[data-pose="think"] .fg-guy{animation:fg-thinktilt 4s ease-in-out infinite}
 .fg-root[data-pose="think"] .fg-eye-r,.fg-root[data-pose="think"] .fg-eye-l{animation:fg-lookup 4s ease-in-out infinite}
-.fg-root[data-pose="think"] .fg-dot1{animation:fg-dot 1.8s ease-in-out infinite}
-.fg-root[data-pose="think"] .fg-dot2{animation:fg-dot 1.8s ease-in-out .3s infinite}
-.fg-root[data-pose="think"] .fg-dot3{animation:fg-dot 1.8s ease-in-out .6s infinite}
+.fg-root[data-pose="think"] .fg-brow-normal{opacity:0}
+.fg-root[data-pose="think"] .fg-brow-think{opacity:1}
+.fg-root[data-pose="think"] .fg-mouth{opacity:0}
+.fg-root[data-pose="think"] .fg-mouth-think{opacity:1}
+.fg-root[data-pose="think"] .fg-lid-think{opacity:1}
 
 .fg-root[data-pose="angry"] .fg-upper{animation:fg-angry .22s ease-in-out infinite}
 .fg-root[data-pose="angry"] .fg-brow-normal{opacity:0}
@@ -133,11 +133,14 @@ export function FunnyGuy({
             <ellipse className="fg-ink" cx="337.32816" cy="326.21268" rx="32.423744" ry="33.695263" />
             {/* angry upper eyelid: skin-colored, drops over the inner-top of the eye */}
             <polygon className="fg-lid" points="288,272 390,272 390,342 288,300" />
+            {/* think eyelid: skin-colored, closes the eye a bit evenly from the top */}
+            <rect className="fg-lid-think" x="286" y="270" width="104" height="31" />
           </g>
           <g className="fg-eye-l">
             <ellipse className="fg-white" cx="442.25381" cy="328.11157" rx="43.882179" ry="45.603046" />
             <ellipse className="fg-ink" cx="441.62891" cy="329.78705" rx="32.423744" ry="33.695263" />
             <polygon className="fg-lid" points="396,272 496,272 496,300 396,342" />
+            <rect className="fg-lid-think" x="394" y="274" width="104" height="31" />
           </g>
           {/* friendly brows (default) */}
           <path className="fg-brow fg-brow-normal" d="m 414.79958,265.44341 c 43.17879,-27.60611 69.3692,5.6628 69.3692,5.6628" />
@@ -145,18 +148,20 @@ export function FunnyGuy({
           {/* angry brows: straight, slanting down toward the nose */}
           <path className="fg-brow fg-brow-angry" d="M 300,296 L 374,322" />
           <path className="fg-brow fg-brow-angry" d="M 410,322 L 484,296" />
-          {/* default light smile + angry frown */}
+          {/* think brows: straight and low, close to the eyes */}
+          <path className="fg-brow fg-brow-think" d="M 300,274 L 378,274" />
+          <path className="fg-brow fg-brow-think" d="M 406,276 L 484,276" />
+          {/* default light smile + angry frown + think straight line */}
           <path className="fg-mouth" d="M 362,413 Q 397,431 432,413" />
           <path className="fg-mouth-angry" d="M 362,421 Q 397,401 432,421" />
-          <path className="fg-grin" d="m 350,405 c 18,42 76,42 94,0" />
+          <path className="fg-mouth-think" d="M 362,415 L 434,415" />
+          {/* cheer: open, black, laughing mouth */}
+          <path className="fg-mouth-cheer" d="M 356,415 Q 397,408 438,415 C 432,458 362,458 356,415 Z" />
         </g>
         {/* leg shadows drawn on top of the body/leg junction */}
         <path className="fg-shadow" d="m 343.91394,850.80017 44.9257,50.14378 V 854.4993 Z" />
         <path className="fg-shadow" d="m 489.36696,858.68398 44.12243,49.36647 V 861.6058 Z" />
       </g>
-      <circle className="fg-dot fg-dot1" cx="600" cy="215" r="9" />
-      <circle className="fg-dot fg-dot2" cx="652" cy="180" r="12" />
-      <circle className="fg-dot fg-dot3" cx="712" cy="140" r="16" />
     </svg>
   );
 }

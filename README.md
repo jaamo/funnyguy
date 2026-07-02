@@ -42,8 +42,8 @@ Any other `svg` props (`className`, `style`, `onClick`, …) are forwarded to th
 
 - **idle** — gentle breathing bob, neutral face.
 - **wave** — one hand raised beside the head, waving; smiles and bobs.
-- **cheer** — both arms up, big grin, a little hop.
-- **think** — head tilt, upward glance, rising "…" thought bubble.
+- **cheer** — both arms up, open laughing mouth, a little hop.
+- **think** — head tilt, straight low brows, half-closed eyes, flat mouth (skeptical/pondering).
 - **angry** — down-slanted brows, frown, hooded eyes; upper body leans forward and trembles.
 
 ### Examples
