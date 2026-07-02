@@ -43,7 +43,6 @@ const STYLES = `
 @keyframes fg-bob{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-10px) rotate(-1.2deg)}50%{transform:translateY(-4px)}75%{transform:translateY(-12px) rotate(1.2deg)}}
 @keyframes fg-breathe{0%,100%{transform:translateY(0) scaleY(1)}50%{transform:translateY(-5px) scaleY(1.015)}}
 @keyframes fg-wave{0%{transform:rotate(-125deg)}20%{transform:rotate(-140deg)}40%{transform:rotate(-125deg)}60%{transform:rotate(-140deg)}80%{transform:rotate(-127deg)}100%{transform:rotate(-125deg)}}
-@keyframes fg-squint{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.8) translateY(-2px)}}
 @keyframes fg-hop{0%,100%{transform:translateY(0) scaleY(1)}15%{transform:translateY(2px) scaleY(.94)}45%{transform:translateY(-34px) scaleY(1.04)}70%{transform:translateY(0) scaleY(1)}}
 @keyframes fg-cheerL{0%,100%{transform:rotate(-150deg)}50%{transform:rotate(-158deg)}}
 @keyframes fg-cheerR{0%,100%{transform:rotate(150deg)}50%{transform:rotate(158deg)}}
@@ -57,7 +56,6 @@ const STYLES = `
 
 .fg-root[data-pose="wave"] .fg-guy{animation:fg-bob 3.2s ease-in-out infinite}
 .fg-root[data-pose="wave"] .fg-arm-left{animation:fg-wave 1.3s ease-in-out infinite}
-.fg-root[data-pose="wave"] .fg-eye-r,.fg-root[data-pose="wave"] .fg-eye-l{animation:fg-squint 3.2s ease-in-out infinite}
 
 .fg-root[data-pose="cheer"] .fg-guy{animation:fg-hop .9s ease-in-out infinite}
 .fg-root[data-pose="cheer"] .fg-arm-left{animation:fg-cheerL .9s ease-in-out infinite}
