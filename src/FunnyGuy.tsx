@@ -1,6 +1,12 @@
 import React from "react";
 
-export type FunnyGuyPose = "idle" | "wave" | "cheer" | "think" | "angry";
+export type FunnyGuyPose =
+  | "idle"
+  | "wave"
+  | "cheer"
+  | "think"
+  | "angry"
+  | "tired";
 
 export interface FunnyGuyProps
   extends Omit<React.SVGProps<SVGSVGElement>, "color"> {
@@ -35,7 +41,7 @@ const STYLES = `
 .fg-eye-r{transform-box:view-box;transform-origin:338px 325px}
 .fg-eye-l{transform-box:view-box;transform-origin:442px 329px}
 .fg-upper{transform-box:view-box;transform-origin:430px 855px}
-.fg-lid,.fg-lid-think{fill:var(--fg-body,#35b5f8);opacity:0}
+.fg-lid,.fg-lid-tired{fill:var(--fg-body,#35b5f8);opacity:0}
 .fg-brow-angry,.fg-brow-think{opacity:0}
 .fg-mouth-angry,.fg-mouth-think{fill:none;stroke:#1a1a1a;stroke-width:12;stroke-linecap:round;opacity:0}
 
@@ -49,6 +55,8 @@ const STYLES = `
 @keyframes fg-lookup{0%,100%{transform:translateY(-4px)}50%{transform:translateY(-6px)}}
 /* leans forward (translateY + slight squash) and trembles side to side */
 @keyframes fg-angry{0%{transform:translateY(6px) scaleY(.97) rotate(-2deg)}25%{transform:translateY(7px) scaleY(.97) rotate(2deg)}50%{transform:translateY(6px) scaleY(.97) rotate(-1.6deg)}75%{transform:translateY(7px) scaleY(.97) rotate(2deg)}100%{transform:translateY(6px) scaleY(.97) rotate(-2deg)}}
+/* slumps forward and sways slowly, wearily */
+@keyframes fg-tired{0%,100%{transform:translateY(10px) scaleY(.955) rotate(-1.5deg)}50%{transform:translateY(13px) scaleY(.95) rotate(1.5deg)}}
 
 .fg-root[data-pose="idle"] .fg-guy{animation:fg-breathe 3.6s ease-in-out infinite}
 
@@ -67,7 +75,14 @@ const STYLES = `
 .fg-root[data-pose="think"] .fg-brow-think{opacity:1}
 .fg-root[data-pose="think"] .fg-mouth{opacity:0}
 .fg-root[data-pose="think"] .fg-mouth-think{opacity:1}
-.fg-root[data-pose="think"] .fg-lid-think{opacity:1}
+
+/* tired = think's face (brows + flat mouth) + droopy eyelids, leaning forward */
+.fg-root[data-pose="tired"] .fg-upper{animation:fg-tired 3.6s ease-in-out infinite}
+.fg-root[data-pose="tired"] .fg-brow-normal{opacity:0}
+.fg-root[data-pose="tired"] .fg-brow-think{opacity:1}
+.fg-root[data-pose="tired"] .fg-mouth{opacity:0}
+.fg-root[data-pose="tired"] .fg-mouth-think{opacity:1}
+.fg-root[data-pose="tired"] .fg-lid-tired{opacity:1}
 
 .fg-root[data-pose="angry"] .fg-upper{animation:fg-angry .22s ease-in-out infinite}
 .fg-root[data-pose="angry"] .fg-brow-normal{opacity:0}
@@ -133,14 +148,14 @@ export function FunnyGuy({
             <ellipse className="fg-ink" cx="337.32816" cy="326.21268" rx="32.423744" ry="33.695263" />
             {/* angry upper eyelid: skin-colored, drops over the inner-top of the eye */}
             <polygon className="fg-lid" points="288,272 390,272 390,342 288,300" />
-            {/* think eyelid: skin-colored, closes the eye a bit evenly from the top */}
-            <rect className="fg-lid-think" x="286" y="270" width="104" height="31" />
+            {/* tired eyelid: skin-colored, closes the eye a bit evenly from the top */}
+            <rect className="fg-lid-tired" x="286" y="270" width="104" height="31" />
           </g>
           <g className="fg-eye-l">
             <ellipse className="fg-white" cx="442.25381" cy="328.11157" rx="43.882179" ry="45.603046" />
             <ellipse className="fg-ink" cx="441.62891" cy="329.78705" rx="32.423744" ry="33.695263" />
             <polygon className="fg-lid" points="396,272 496,272 496,300 396,342" />
-            <rect className="fg-lid-think" x="394" y="274" width="104" height="31" />
+            <rect className="fg-lid-tired" x="394" y="274" width="104" height="31" />
           </g>
           {/* friendly brows (default) */}
           <path className="fg-brow fg-brow-normal" d="m 414.79958,265.44341 c 43.17879,-27.60611 69.3692,5.6628 69.3692,5.6628" />

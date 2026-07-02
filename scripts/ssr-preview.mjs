@@ -2,7 +2,7 @@ import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { FunnyGuy } from "../dist/index.js";
 
-const poses = ["idle", "wave", "cheer", "think", "angry"];
+const poses = ["idle", "wave", "cheer", "think", "angry", "tired"];
 const cells = poses
   .map(
     (p) =>

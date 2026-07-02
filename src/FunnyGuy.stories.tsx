@@ -8,7 +8,7 @@ const meta = {
   argTypes: {
     pose: {
       control: "inline-radio",
-      options: ["idle", "wave", "cheer", "think", "angry"],
+      options: ["idle", "wave", "cheer", "think", "angry", "tired"],
       description: "Which animated pose to play.",
     },
     color: {
@@ -44,12 +44,13 @@ export const Idle: Story = { args: { pose: "idle" } };
 export const Cheer: Story = { args: { pose: "cheer" } };
 export const Think: Story = { args: { pose: "think" } };
 export const Angry: Story = { args: { pose: "angry" } };
+export const Tired: Story = { args: { pose: "tired" } };
 
 /** All poses side by side. */
 export const AllPoses: Story = {
   render: (args) => (
     <div style={{ display: "flex", gap: 24, flexWrap: "wrap", alignItems: "flex-end" }}>
-      {(["idle", "wave", "cheer", "think", "angry"] as const).map((pose) => (
+      {(["idle", "wave", "cheer", "think", "angry", "tired"] as const).map((pose) => (
         <figure key={pose} style={{ margin: 0, textAlign: "center" }}>
           <FunnyGuy {...args} pose={pose} />
           <figcaption style={{ fontFamily: "system-ui", color: "#0b3a57", marginTop: 8 }}>
