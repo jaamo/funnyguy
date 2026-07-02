@@ -130,7 +130,7 @@ export function FunnyGuy({
         </g>
         <path className="fg-brow" d="m 414.79958,265.44341 c 43.17879,-27.60611 69.3692,5.6628 69.3692,5.6628" />
         <path className="fg-brow" d="m 305.18257,264.63756 c 43.17879,-27.60611 69.3692,5.6628 69.3692,5.6628" />
-        <path className="fg-mouth" d="M 360,415 L 434,415" />
+        <path className="fg-mouth" d="M 362,413 Q 397,431 432,413" />
         <path className="fg-grin" d="m 350,405 c 18,42 76,42 94,0" />
       </g>
       <circle className="fg-dot fg-dot1" cx="600" cy="215" r="9" />
