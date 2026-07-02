@@ -64,23 +64,8 @@
     100% { transform: rotate(-125deg); }
   }
 
-  /* neutral oval mouth fades OUT as the grin takes over */
-  #mouth {
-    animation: mouth-fade 3.2s ease-in-out infinite;
-  }
-  @keyframes mouth-fade {
-    0%, 20%, 100% { opacity: 1; }
-    40%, 75%      { opacity: 0; }
-  }
-  /* the happy grin curve fades IN on the up-beat */
-  #grin {
-    opacity: 0;
-    animation: grin 3.2s ease-in-out infinite;
-  }
-  @keyframes grin {
-    0%, 20%, 100% { opacity: 0; }
-    40%, 75%      { opacity: 1; }
-  }
+  /* mouth keeps its default light smile while waving; grin stays hidden */
+  #grin { opacity: 0; }
 
   /* eyes give a friendly cheek-raise squint while smiling */
   #right-eye-group, #left-eye-group {
