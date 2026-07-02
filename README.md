@@ -55,6 +55,18 @@ Any other `svg` props (`className`, `style`, `onClick`, …) are forwarded to th
 
 Motion is automatically disabled for users with `prefers-reduced-motion: reduce`.
 
+## Playground
+
+Explore every pose and prop live in Storybook (Vite builder):
+
+```bash
+npm run storybook         # dev server at http://localhost:6006
+npm run build-storybook   # static build to storybook-static/
+```
+
+The **Playground** story exposes all props as controls (pose radio, color picker,
+size slider, animated toggle); **AllPoses** shows the four poses side by side.
+
 ## Development
 
 ```bash
