@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Funny Guy — waving hello</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    background: radial-gradient(circle at 50% 30%, #eaf6ff 0%, #cfe8fb 55%, #b6dcf7 100%);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: #0b3a57;
+  }
+  .stage {
+    text-align: center;
+    padding: 24px;
+  }
+  h1 {
+    margin: 0 0 4px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  p.sub { margin: 0 0 12px; opacity: 0.7; font-size: 0.95rem; }
+
+  .guy {
+    width: min(38vh, 340px);
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    overflow: visible;
+    filter: drop-shadow(0 24px 24px rgba(8, 126, 188, 0.28));
+  }
+
+  /* whole character gives a gentle living bob + sway */
+  #guy {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: bob 3.2s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25%      { transform: translateY(-10px) rotate(-1.2deg); }
+    50%      { transform: translateY(-4px)  rotate(0deg); }
+    75%      { transform: translateY(-12px) rotate(1.2deg); }
+  }
+
+  /* the waving arm pivots at the shoulder, raised up beside the head */
+  #wave-arm {
+    transform-box: view-box;
+    transform-origin: 553px 435px; /* shoulder joint, in viewBox units */
+    animation: wave 1.3s ease-in-out infinite;
+  }
+  @keyframes wave {
+    0%   { transform: rotate(-125deg); } /* arm lifted up beside the head */
+    20%  { transform: rotate(-140deg); }
+    40%  { transform: rotate(-125deg); }
+    60%  { transform: rotate(-140deg); }
+    80%  { transform: rotate(-127deg); }
+    100% { transform: rotate(-125deg); }
+  }
+
+  /* neutral oval mouth fades OUT as the grin takes over */
+  #mouth {
+    animation: mouth-fade 3.2s ease-in-out infinite;
+  }
+  @keyframes mouth-fade {
+    0%, 20%, 100% { opacity: 1; }
+    40%, 75%      { opacity: 0; }
+  }
+  /* the happy grin curve fades IN on the up-beat */
+  #grin {
+    opacity: 0;
+    animation: grin 3.2s ease-in-out infinite;
+  }
+  @keyframes grin {
+    0%, 20%, 100% { opacity: 0; }
+    40%, 75%      { opacity: 1; }
+  }
+
+  /* eyes give a friendly cheek-raise squint while smiling */
+  #right-eye-group, #left-eye-group {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: squint 3.2s ease-in-out infinite;
+  }
+  @keyframes squint {
+    0%, 100% { transform: scaleY(1); }
+    50%      { transform: scaleY(0.8) translateY(-2px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #guy, #wave-arm, #mouth, #grin, #right-eye-group, #left-eye-group {
+      animation: none;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <h1>Hi there! 👋</h1>
+    <p class="sub">funnyguy says hello</p>
+
+    <svg class="guy" version="1.1" viewBox="0 0 864 1223" xmlns="http://www.w3.org/2000/svg" aria-label="A cheerful blue character waving and smiling">
+      <g id="guy">
+        <!-- body -->
+        <path inkscape:label="body"
+          style="fill:#35b5f8;stroke-width:3.77953;fill-opacity:1"
+          d="m 285.66439,848.3888 c 0,0 -65.39305,-378.59135 -41.30088,-487.00614 24.09218,-108.4148 89.48523,-168.64524 187.57481,-166.92437 98.08958,1.72087 184.13307,89.48523 182.4122,173.80784 -1.72087,84.32262 -8.60435,457.75137 -25.81305,495.6105 C 526.58616,860.4349 285.66439,848.3888 285.66439,848.3888 Z" />
+
+        <!-- legs -->
+        <rect inkscape:label="right leg"
+          style="fill:#35b5f8;fill-opacity:1;stroke:none;stroke-width:8"
+          width="44.925697" height="303.63574" x="343.91394" y="817.95752" />
+        <rect inkscape:label="left leg"
+          style="fill:#35b5f8;fill-opacity:1;stroke:none;stroke-width:8"
+          width="44.925697" height="303.63574" x="488.56369" y="819.51562" />
+
+        <!-- static arm (right arm of image) -->
+        <rect inkscape:label="right arm"
+          style="fill:#35b5f8;fill-opacity:1;stroke:none;stroke-width:10.206"
+          width="44.925697" height="494.18268" x="274.10638" y="446.77661"
+          transform="rotate(4.2996009)" />
+
+        <!-- waving arm (left arm of image) wrapped so its own tilt is preserved -->
+        <g id="wave-arm">
+          <rect inkscape:label="left arm"
+            style="fill:#35b5f8;fill-opacity:1;stroke:none;stroke-width:10.206"
+            width="44.925697" height="494.18268" x="451.63632" y="538.35541"
+            transform="rotate(-12.047026)" />
+        </g>
+
+        <!-- leg shadows -->
+        <path inkscape:label="leg shadow right"
+          style="fill:#087ebc;fill-opacity:1;stroke:none;stroke-width:8"
+          d="m 343.91394,850.80017 44.9257,50.14378 V 854.4993 Z" />
+        <path inkscape:label="leg shadow left"
+          style="fill:#087ebc;fill-opacity:1;stroke:none;stroke-width:8"
+          d="m 489.36696,858.68398 44.12243,49.36647 V 861.6058 Z" />
+
+        <!-- eyes -->
+        <g id="right-eye-group">
+          <ellipse style="fill:#ffffff;fill-opacity:1;stroke-width:3.33241" cx="338.15091" cy="324.38394" rx="43.882179" ry="45.603046" />
+          <ellipse style="fill:#1a1a1a;fill-opacity:1;stroke-width:2.46226" cx="337.32816" cy="326.21268" rx="32.423744" ry="33.695263" />
+        </g>
+        <g id="left-eye-group">
+          <ellipse style="fill:#ffffff;fill-opacity:1;stroke-width:3.33241" cx="442.25381" cy="328.11157" rx="43.882179" ry="45.603046" />
+          <ellipse style="fill:#1a1a1a;fill-opacity:1;stroke-width:2.46226" cx="441.62891" cy="329.78705" rx="32.423744" ry="33.695263" />
+        </g>
+
+        <!-- eyebrows -->
+        <path inkscape:label="left eyebrow"
+          style="fill:none;fill-opacity:1;stroke:#1a1a1a;stroke-width:8"
+          d="m 414.79958,265.44341 c 43.17879,-27.60611 69.3692,5.6628 69.3692,5.6628" />
+        <path inkscape:label="right eyebrow"
+          style="fill:none;fill-opacity:1;stroke:#1a1a1a;stroke-width:8"
+          d="m 305.18257,264.63756 c 43.17879,-27.60611 69.3692,5.6628 69.3692,5.6628" />
+
+        <!-- mouth: neutral oval that squashes, plus a grin curve that fades in -->
+        <path id="mouth" inkscape:label="mouth"
+          style="fill:#1a1a1a;fill-opacity:1;stroke:#1a1a1a;stroke-width:8"
+          d="m 374.43076,385.89159 c 0,0 -6.59882,38.99302 -1.19978,58.18959 5.39903,19.19656 35.39366,35.39367 38.39313,4.19925 2.99946,-31.19442 0,-64.18852 0,-64.18852 z" />
+        <path id="grin"
+          style="fill:none;stroke:#1a1a1a;stroke-width:12;stroke-linecap:round"
+          d="m 350,405 c 18,42 76,42 94,0" />
+      </g>
+    </svg>
+  </div>
+</body>
+</html>
