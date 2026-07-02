@@ -1,31 +1,62 @@
 # funnyguy
 
-A single-file animated mockup: `index.html` inlines the character SVG and drives it
-with CSS animations (waving arm, smiling mouth, bobbing body).
+A reusable React component (`src/FunnyGuy.tsx`) that renders an animated blue SVG
+character with parametrized poses. `index.html` is the original single-file mockup
+that the component was distilled from.
 
 ## Structure
 
-- `index.html` — the mockup. The SVG is inlined (not `<img>`) so individual parts
-  (`#wave-arm`, `#mouth`, `#grin`, eyes, `#guy`) can be animated with CSS.
+- `src/FunnyGuy.tsx` — the React component. Inlines the SVG **and** all animation
+  CSS (in the `STYLES` string) so it is self-contained: no stylesheet import, no
+  runtime deps. Props: `pose | color | size | animated | title`.
+- `src/index.ts` — package entry (uses explicit `.js` specifiers so the ESM build
+  runs under Node too).
+- `package.json` / `tsconfig.json` — build to `dist/` via `tsc`; `react` is a peer dep.
+- `scripts/ssr-preview.mjs` — renders the compiled component for all poses to one
+  HTML page (used for screenshot validation, see Testing).
+- `index.html` — the original vanilla mockup (kept as a demo).
 - `funnyguy.svg` — the original source artwork exported from Inkscape.
 
+### Component design notes
+- Poses are driven by a `data-pose` attribute on the root `<svg>`; global CSS rules
+  (`.fg-root[data-pose="wave"] .fg-arm-left { … }`) select which parts animate, so
+  many instances share one set of keyframes. `animated={false}` sets `data-anim="false"`,
+  which pauses every animation at a representative mid-cycle frame.
+- `color` sets the `--fg-body` CSS var; the leg shadow is derived with `color-mix`,
+  so recoloring stays coherent.
+- **think** uses a "…" thought bubble (not a hand-to-chin) on purpose: the arms are
+  the same fill as the body, so any arm posed *over* the body silhouette (like reaching
+  the face) is invisible. Poses only read when the limb sits *outside* the silhouette
+  (wave/cheer go up and away). Keep that constraint in mind when adding poses.
+
 ### Key animation details
-- `#guy` — whole-character bob/sway, pivots at the feet (`transform-origin: 50% 100%`).
-- `#wave-arm` — a `<g>` wrapping the arm rect so the rect keeps its own `rotate(-12)`
-  while the group rotates for the wave. Pivots at the **shoulder** in viewBox units
-  (`transform-box: view-box; transform-origin: 553px 435px`). The shoulder is NOT the
-  rect's `x/y` — the rect's own `rotate(-12)` about `(0,0)` relocates it, so the pivot
-  was found empirically. If you move the arm, re-verify the pivot with a screenshot.
-- Mouth is two shapes cross-faded: `#mouth` (neutral oval) fades out as `#grin`
+- Whole character (`.fg-guy` / `#guy`) — bob/sway/hop, pivots at the feet
+  (`transform-origin: 430px 1120px` in viewBox units).
+- Waving arm (`.fg-arm-left`) — a `<g>` wrapping the arm rect so the rect keeps its own
+  `rotate(-12)` while the group rotates for the wave. Pivots at the **shoulder** in
+  viewBox units (`transform-box: view-box; transform-origin: 553px 435px`). The shoulder
+  is NOT the rect's `x/y` — the rect's own `rotate(-12)` about `(0,0)` relocates it, so
+  the pivot was found empirically. The other arm pivots at `300px 470px`. If you move an
+  arm, re-verify the pivot with a screenshot.
+- Mouth is two shapes cross-faded: `.fg-mouth` (neutral oval) fades out as `.fg-grin`
   (smile curve) fades in, kept in sync with the bob.
 - Respects `prefers-reduced-motion: reduce` (disables all animations).
 
 ## Testing — ALWAYS validate visually with a headless browser
 
-CSS animation changes cannot be trusted from reading the code. After any change to
-`index.html`, render it with headless Chrome and read the screenshots back.
+CSS animation changes cannot be trusted from reading the code. After any change to a
+pose, render it with headless Chrome and read the screenshots back.
 
 Chrome is available at `google-chrome` (also `chromium-browser`). There is no puppeteer.
+
+**For the React component**, render the *compiled* output (build first) so you test what
+ships, not a hand-written copy:
+
+```bash
+npm run build
+node scripts/ssr-preview.mjs > /tmp/fg.html
+# then freeze + screenshot as below
+```
 
 **Capture multiple frames across the animation cycle** — a single screenshot only
 catches one moment and will miss timing/pose bugs. Freeze each frame by injecting a
